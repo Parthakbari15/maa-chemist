@@ -1,164 +1,32 @@
 {
   "purchases": [
     {
-      "id": 1,
-      "productName": "Paracetamol 500mg",
-      "quantity": 100,
-      "purchasePrice": 2.5,
-      "total": 250,
-      "expiryDate": "2024-12-31",
-      "date": "2024-01-15T10:30:00.000Z"
-    },
-    {
-      "id": 2,
-      "billNo": "PUR-002",
-      "billDate": "2024-01-20",
-      "agencyId": 2,
-      "agencyName": "XYZ Medical Supplies",
-      "items": [
-        {
-          "srNo": 1,
-          "hsn": "3004",
-          "productName": "Amoxicillin 250mg",
-          "pack": "10x10",
-          "mfg": "XYZ Labs",
-          "tQty": 50,
-          "mrp": 12,
-          "batchNo": "A002",
-          "exp": "2024-08-15",
-          "rate": 10,
-          "discount": 5,
-          "taxable": 475,
-          "gst": 18,
-          "amount": 560.5
-        }
-      ],
-      "billTotal": 560.5,
-      "date": "2024-01-20T14:15:00.000Z"
-    },
-    {
-      "id": 3,
-      "productName": "Ibuprofen 400mg",
-      "quantity": 75,
-      "purchasePrice": 3.25,
-      "total": 243.75,
-      "expiryDate": "2025-02-28",
-      "date": "2024-02-01T09:00:00.000Z"
-    },
-    {
-      "id": 4,
-      "productName": "Cough Syrup",
-      "quantity": 30,
-      "purchasePrice": 5.5,
-      "total": 165,
-      "expiryDate": "2024-07-30",
-      "date": "2024-02-10T11:30:00.000Z"
-    },
-    {
-      "id": 5,
-      "productName": "Vitamin C Tablets",
-      "quantity": 120,
-      "purchasePrice": 0.75,
-      "total": 90,
-      "expiryDate": "2025-06-15",
-      "date": "2024-02-15T16:45:00.000Z"
-    },
-    {
-      "id": 6,
-      "productName": "Bandages",
-      "quantity": 200,
-      "purchasePrice": 0.5,
-      "total": 100,
-      "expiryDate": "2026-12-31",
-      "date": "2024-03-01T10:00:00.000Z"
-    },
-    {
-      "id": 7,
-      "productName": "Antiseptic Solution",
-      "quantity": 25,
-      "purchasePrice": 4.25,
-      "total": 106.25,
-      "expiryDate": "2024-09-20",
-      "date": "2024-03-05T13:20:00.000Z"
-    },
-    {
-      "id": 8,
-      "productName": "Thermometer",
-      "quantity": 15,
-      "purchasePrice": 12,
-      "total": 180,
-      "expiryDate": "2027-12-31",
-      "date": "2024-03-10T15:30:00.000Z"
-    },
-    {
-      "agencyId": 1,
-      "billNo": "111222112122",
+      "agencyId": 3,
+      "billNo": "PO/1",
       "billDate": "2026-02-14",
       "items": [
         {
-          "srNo": 1,
-          "hsn": "",
-          "productName": "1121321",
-          "pack": "100",
-          "mfg": "11",
-          "tQty": 1,
-          "mrp": 1,
-          "batchNo": "11",
-          "exp": "2026-02-06",
-          "rate": 0.01,
-          "discount": 0.01,
-          "taxable": 0.009999000000000001,
+          "srNo": 11,
+          "hsn": "1",
+          "productName": "Katakonazol",
+          "pack": "",
+          "mfg": "1",
+          "tQty": 110,
+          "freeQty": 12,
+          "mrp": 10000.01,
+          "batchNo": "bt123",
+          "exp": "2026-02-28",
+          "rate": 600,
+          "discount": 20,
+          "taxable": 52800,
           "gst": 5,
-          "amount": 0.010498950000000002
+          "amount": 55440
         }
       ],
-      "agencyName": "ABC Medical Supplies",
-      "billTotal": 0.010498950000000002,
-      "date": "2026-02-14T17:20:25.083Z",
-      "id": 9
-    },
-    {
-      "agencyId": 1,
-      "billNo": "3333333",
-      "billDate": "2026-02-12",
-      "items": [
-        {
-          "srNo": 11111155451,
-          "hsn": "65577",
-          "productName": "paracemotl",
-          "pack": "111",
-          "mfg": "M",
-          "tQty": 13144,
-          "mrp": 122225580.38,
-          "batchNo": "112222",
-          "exp": "2026-02-12",
-          "rate": 11111,
-          "discount": 0.26,
-          "taxable": 145663272.2416,
-          "gst": 12,
-          "amount": 163142864.91059202
-        },
-        {
-          "srNo": 1,
-          "hsn": "111",
-          "productName": "stepsil",
-          "pack": "111",
-          "mfg": "s",
-          "tQty": 10,
-          "mrp": 10000,
-          "batchNo": "80",
-          "exp": "2026-02-14",
-          "rate": 10000,
-          "discount": 1990,
-          "taxable": -1890000,
-          "gst": 5,
-          "amount": -1984500
-        }
-      ],
-      "agencyName": "ABC Medical Supplies",
-      "billTotal": 161158364.91059202,
-      "date": "2026-02-14T17:32:24.802Z",
-      "id": 10
+      "billTotal": 55440,
+      "date": "2026-02-14T18:51:32.859Z",
+      "agencyName": "Universal Agency",
+      "id": 11
     }
   ],
   "sales": [
@@ -209,95 +77,6 @@
       ],
       "grandTotal": 171,
       "date": "2024-01-26T10:20:00.000Z"
-    },
-    {
-      "id": 3,
-      "productName": "Ibuprofen 400mg",
-      "quantity": 15,
-      "salePrice": 4.5,
-      "total": 67.5,
-      "date": "2024-02-05T14:30:00.000Z"
-    },
-    {
-      "id": 4,
-      "productName": "Cough Syrup",
-      "quantity": 8,
-      "salePrice": 7.25,
-      "total": 58,
-      "date": "2024-02-12T09:20:00.000Z"
-    },
-    {
-      "id": 5,
-      "productName": "Vitamin C Tablets",
-      "quantity": 30,
-      "salePrice": 1.25,
-      "total": 37.5,
-      "date": "2024-02-18T11:45:00.000Z"
-    },
-    {
-      "id": 6,
-      "productName": "Bandages",
-      "quantity": 50,
-      "salePrice": 0.75,
-      "total": 37.5,
-      "date": "2024-02-22T16:10:00.000Z"
-    },
-    {
-      "id": 7,
-      "productName": "Paracetamol 500mg",
-      "quantity": 15,
-      "salePrice": 3.5,
-      "total": 52.5,
-      "date": "2024-03-01T08:30:00.000Z"
-    },
-    {
-      "id": 8,
-      "productName": "Antiseptic Solution",
-      "quantity": 5,
-      "salePrice": 6,
-      "total": 30,
-      "date": "2024-03-08T12:15:00.000Z"
-    },
-    {
-      "id": 9,
-      "productName": "Thermometer",
-      "quantity": 3,
-      "salePrice": 15,
-      "total": 45,
-      "date": "2024-03-12T10:45:00.000Z"
-    },
-    {
-      "id": 10,
-      "productName": "Vitamin C Tablets",
-      "quantity": 25,
-      "salePrice": 1.25,
-      "total": 31.25,
-      "date": "2024-03-15T14:20:00.000Z"
-    },
-    {
-      "toName": "v",
-      "toMobile": "7567174979",
-      "paymentType": "Cash",
-      "billNo": "CA-T/137",
-      "billDate": "2026-02-14",
-      "items": [
-        {
-          "hsn": "65577",
-          "product": "paracemotl",
-          "pack": "11111",
-          "mfg": "M",
-          "qty": 10,
-          "mrp": 13,
-          "batch": "112222",
-          "exp": "2026-02-12",
-          "disc": 1,
-          "amount": 128.7
-        }
-      ],
-      "grandTotal": 128.7,
-      "date": "2026-02-14T17:52:17.775Z",
-      "total": null,
-      "id": 11
     }
   ],
   "agencies": [
@@ -316,6 +95,14 @@
       "phone": "+91-9876543211",
       "email": "xyz@medical.com",
       "gst": "27AAAPL5678C1ZV"
+    },
+    {
+      "name": "Universal Agency",
+      "address": "Jamnagar",
+      "phone": "1234567898",
+      "email": "universal@gmail.com",
+      "gst": "12432423432",
+      "id": 3
     }
   ]
 }
