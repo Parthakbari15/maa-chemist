@@ -1,0 +1,383 @@
+<template>
+  <div class="space-y-6 animate-fade-in">
+    <!-- Header -->
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">Purchase Management</h1>
+        <p class="text-gray-600">Manage your inventory purchases</p>
+      </div>
+      <button
+        @click="showAddModal = true"
+        class="btn btn-primary flex items-center space-x-2"
+      >
+        <Plus class="h-4 w-4" />
+        <span>Add Purchase</span>
+      </button>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div class="card bg-blue-50 border-blue-200">
+        <div class="flex items-center space-x-3">
+          <div class="bg-blue-100 rounded-lg p-2">
+            <ShoppingCart class="h-5 w-5 text-blue-600" />
+          </div>
+          <div>
+            <p class="text-sm text-blue-600 font-medium">Total Purchases</p>
+            <p class="text-xl font-bold text-blue-900">${{ purchaseStore.totalPurchases.toFixed(2) }}</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card bg-green-50 border-green-200">
+        <div class="flex items-center space-x-3">
+          <div class="bg-green-100 rounded-lg p-2">
+            <Package class="h-5 w-5 text-green-600" />
+          </div>
+          <div>
+            <p class="text-sm text-green-600 font-medium">Total Quantity</p>
+            <p class="text-xl font-bold text-green-900">{{ purchaseStore.totalQuantity }}</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card bg-orange-50 border-orange-200">
+        <div class="flex items-center space-x-3">
+          <div class="bg-orange-100 rounded-lg p-2">
+            <AlertTriangle class="h-5 w-5 text-orange-600" />
+          </div>
+          <div>
+            <p class="text-sm text-orange-600 font-medium">Expiring Soon</p>
+            <p class="text-xl font-bold text-orange-900">{{ purchaseStore.expiringSoon.length }}</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card bg-purple-50 border-purple-200">
+        <div class="flex items-center space-x-3">
+          <div class="bg-purple-100 rounded-lg p-2">
+            <TrendingUp class="h-5 w-5 text-purple-600" />
+          </div>
+          <div>
+            <p class="text-sm text-purple-600 font-medium">Avg Purchase Value</p>
+            <p class="text-xl font-bold text-purple-900">
+              ${{ averagePurchaseValue.toFixed(2) }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Table -->
+    <DataTable
+      :columns="tableColumns"
+      :data="purchaseStore.purchases"
+      :loading="purchaseStore.loading"
+      :filters="tableFilters"
+      @add="showAddModal = true"
+      @edit="editPurchase"
+      @delete="deletePurchase"
+      @row-click="viewPurchaseDetail"
+    />
+
+    <!-- Add/Edit Modal -->
+    <div v-if="showAddModal || editingPurchase" class="fixed inset-0 z-50 overflow-y-auto">
+      <div
+        class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
+        @click="closeModal"
+      ></div>
+      
+      <div class="flex min-h-screen items-center justify-center p-4">
+        <div class="relative bg-white rounded-lg shadow-xl max-w-md w-full animate-bounce-in">
+          <div class="bg-blue-600 text-white p-6 rounded-t-lg">
+            <h2 class="text-xl font-bold">
+              {{ editingPurchase ? 'Edit Purchase' : 'Add New Purchase' }}
+            </h2>
+          </div>
+          
+          <form @submit.prevent="savePurchase" class="p-6 space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">
+                Product Name *
+              </label>
+              <input
+                v-model="formData.productName"
+                type="text"
+                required
+                class="input"
+                placeholder="Enter product name"
+              />
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                  Quantity *
+                </label>
+                <input
+                  v-model.number="formData.quantity"
+                  type="number"
+                  min="1"
+                  required
+                  class="input"
+                  placeholder="0"
+                />
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                  Purchase Price ($) *
+                </label>
+                <input
+                  v-model.number="formData.purchasePrice"
+                  type="number"
+                  min="0.01"
+                  step="0.01"
+                  required
+                  class="input"
+                  placeholder="0.00"
+                />
+              </div>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">
+                Expiry Date *
+              </label>
+              <input
+                v-model="formData.expiryDate"
+                type="date"
+                required
+                :min="tomorrow"
+                class="input"
+              />
+            </div>
+            
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <div class="flex justify-between items-center">
+                <span class="text-sm font-medium text-gray-700">Total Amount:</span>
+                <span class="text-lg font-bold text-gray-900">
+                  ${{ calculateTotal.toFixed(2) }}
+                </span>
+              </div>
+            </div>
+            
+            <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+              <button
+                type="button"
+                @click="closeModal"
+                class="btn btn-secondary"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                :disabled="purchaseStore.loading"
+                class="btn btn-primary"
+              >
+                <div v-if="purchaseStore.loading" class="spinner h-4 w-4 mr-2"></div>
+                {{ editingPurchase ? 'Update' : 'Add' }} Purchase
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div v-if="deleteConfirmation" class="fixed inset-0 z-50 overflow-y-auto">
+      <div
+        class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
+        @click="cancelDelete"
+      ></div>
+      
+      <div class="flex min-h-screen items-center justify-center p-4">
+        <div class="relative bg-white rounded-lg shadow-xl max-w-md w-full animate-bounce-in">
+          <div class="bg-red-600 text-white p-6 rounded-t-lg">
+            <h2 class="text-xl font-bold">Confirm Delete</h2>
+          </div>
+          
+          <div class="p-6">
+            <div class="flex items-center space-x-3 mb-4">
+              <div class="bg-red-100 rounded-full p-2">
+                <Trash2 class="h-6 w-6 text-red-600" />
+              </div>
+              <div>
+                <p class="text-gray-900">Are you sure you want to delete this purchase?</p>
+                <p class="text-sm text-gray-600 mt-1">{{ deleteConfirmation.productName }}</p>
+              </div>
+            </div>
+            
+            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
+              <p class="text-sm text-yellow-800">
+                <strong>Warning:</strong> This will reduce the available stock and cannot be undone.
+              </p>
+            </div>
+            
+            <div class="flex justify-end space-x-3">
+              <button
+                @click="cancelDelete"
+                class="btn btn-secondary"
+              >
+                Cancel
+              </button>
+              <button
+                @click="confirmDelete"
+                :disabled="purchaseStore.loading"
+                class="btn btn-danger"
+              >
+                <div v-if="purchaseStore.loading" class="spinner h-4 w-4 mr-2"></div>
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { usePurchaseStore } from '@/stores/purchaseStore'
+import DataTable from '@/components/DataTable.vue'
+import {
+  Plus,
+  ShoppingCart,
+  Package,
+  AlertTriangle,
+  TrendingUp,
+  Trash2
+} from 'lucide-vue-next'
+
+const router = useRouter()
+const purchaseStore = usePurchaseStore()
+
+const showAddModal = ref(false)
+const editingPurchase = ref(null)
+const deleteConfirmation = ref(null)
+
+const formData = ref({
+  productName: '',
+  quantity: 1,
+  purchasePrice: 0,
+  expiryDate: ''
+})
+
+const tableColumns = [
+  { key: 'id', label: 'ID', sortable: true },
+  { key: 'productName', label: 'Product Name', sortable: true },
+  { key: 'quantity', label: 'Quantity', sortable: true },
+  { key: 'purchasePrice', label: 'Purchase Price', sortable: true, format: 'currency' },
+  { key: 'total', label: 'Total', sortable: true, format: 'currency' },
+  { key: 'expiryDate', label: 'Expiry Date', sortable: true, format: 'date' },
+  { key: 'date', label: 'Purchase Date', sortable: true, format: 'date' }
+]
+
+const tableFilters = [
+  {
+    key: 'productName',
+    label: 'Product Name',
+    type: 'text',
+    placeholder: 'Filter by product...'
+  },
+  {
+    key: 'expiryDate',
+    label: 'Expiry Date',
+    type: 'date'
+  }
+]
+
+const tomorrow = computed(() => {
+  const date = new Date()
+  date.setDate(date.getDate() + 1)
+  return date.toISOString().split('T')[0]
+})
+
+const averagePurchaseValue = computed(() => {
+  if (purchaseStore.purchases.length === 0) return 0
+  return purchaseStore.totalPurchases / purchaseStore.purchases.length
+})
+
+const calculateTotal = computed(() => {
+  return (formData.value.quantity || 0) * (formData.value.purchasePrice || 0)
+})
+
+const editPurchase = (purchase) => {
+  editingPurchase.value = purchase
+  formData.value = {
+    productName: purchase.productName,
+    quantity: purchase.quantity,
+    purchasePrice: purchase.purchasePrice,
+    expiryDate: purchase.expiryDate
+  }
+}
+
+const deletePurchase = (purchase) => {
+  deleteConfirmation.value = purchase
+}
+
+const savePurchase = async () => {
+  try {
+    if (editingPurchase.value) {
+      await purchaseStore.updatePurchase(editingPurchase.value.id, formData.value)
+    } else {
+      await purchaseStore.addPurchase(formData.value)
+    }
+    closeModal()
+  } catch (error) {
+    console.error('Failed to save purchase:', error)
+  }
+}
+
+const confirmDelete = async () => {
+  try {
+    await purchaseStore.deletePurchase(deleteConfirmation.value.id)
+    cancelDelete()
+  } catch (error) {
+    console.error('Failed to delete purchase:', error)
+  }
+}
+
+const closeModal = () => {
+  showAddModal.value = false
+  editingPurchase.value = null
+  formData.value = {
+    productName: '',
+    quantity: 1,
+    purchasePrice: 0,
+    expiryDate: ''
+  }
+}
+
+const cancelDelete = () => {
+  deleteConfirmation.value = null
+}
+
+const viewPurchaseDetail = (purchase) => {
+  router.push(`/purchase/${purchase.id}`)
+}
+
+onMounted(() => {
+  purchaseStore.fetchPurchases()
+  
+  // Check if we're editing a purchase
+  const editPurchaseId = sessionStorage.getItem('editPurchaseId')
+  if (editPurchaseId) {
+    const purchase = purchaseStore.getPurchaseById(parseInt(editPurchaseId))
+    if (purchase) {
+      editingPurchase.value = purchase
+      formData.value = {
+        productName: purchase.productName,
+        quantity: purchase.quantity,
+        purchasePrice: purchase.purchasePrice,
+        expiryDate: purchase.expiryDate
+      }
+      showAddModal.value = true
+    }
+    // Clear the edit ID from sessionStorage
+    sessionStorage.removeItem('editPurchaseId')
+  }
+})
+</script>

@@ -1,0 +1,21 @@
+{
+  "css.validate": false,
+  "stylelint.validate": ["css", "scss", "postcss"],
+  "tailwindCSS.includeLanguages": {
+    "vue": "html",
+    "vue-html": "html"
+  },
+  "tailwindCSS.experimental.classRegex": [
+    ["c\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ],
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "emmet.includeLanguages": {
+    "vue": "html"
+  },
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "css.lint.unknownAtRules": "ignore"
+}
