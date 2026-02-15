@@ -257,6 +257,89 @@
                 </div>
               </div>
 
+              <!-- Bill Image Section -->
+              <div class="border-t pt-6">
+                <div class="mb-4">
+                  <h4 class="text-md font-medium text-gray-900">Bill Image</h4>
+                  <p class="text-sm text-gray-500">
+                    Upload or update purchase bill image
+                  </p>
+                </div>
+
+                <div class="space-y-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2"
+                      >Upload Bill Image</label
+                    >
+                    <div class="flex items-center space-x-4">
+                      <input
+                        type="file"
+                        accept="image/*,.pdf"
+                        @change="handleImageUpload"
+                        ref="fileInput"
+                        class="hidden"
+                      />
+                      <button
+                        type="button"
+                        @click="$refs.fileInput.click()"
+                        class="btn btn-secondary"
+                      >
+                        <Upload class="h-4 w-4 mr-2" />
+                        Choose Image
+                      </button>
+                      <button
+                        v-if="formData.billImage"
+                        type="button"
+                        @click="removeImage"
+                        class="btn btn-danger"
+                      >
+                        <X class="h-4 w-4 mr-2" />
+                        Remove
+                      </button>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">
+                      Supported formats: JPG, PNG, PDF. Max file size: 5MB
+                    </p>
+                  </div>
+
+                  <!-- Image Preview -->
+                  <div v-if="formData.billImage" class="mt-4">
+                    <div class="border rounded-lg p-4 bg-gray-50">
+                      <h4 class="text-sm font-medium text-gray-700 mb-2">
+                        Preview:
+                      </h4>
+                      <div class="relative inline-block">
+                        <img
+                          v-if="formData.billImage.startsWith('data:')"
+                          :src="formData.billImage"
+                          alt="Bill preview"
+                          class="max-w-full h-auto max-h-48 rounded-lg shadow-md"
+                        />
+                        <div
+                          v-else-if="formData.billImage.startsWith('PDF:')"
+                          class="flex items-center space-x-4 p-4 bg-yellow-50 rounded-lg"
+                        >
+                          <FileText class="h-8 w-8 text-yellow-600" />
+                          <div>
+                            <p class="font-medium text-gray-900">
+                              {{ formData.billImage.replace("PDF: ", "") }}
+                            </p>
+                            <p class="text-sm text-gray-500">PDF document</p>
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          @click="removeImage"
+                          class="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                        >
+                          <X class="h-4 w-4" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <!-- Items Section -->
               <div class="border-t pt-6">
                 <div class="flex items-center justify-between mb-4">
@@ -539,6 +622,10 @@ import {
   Package,
   Search,
   Trash2,
+  ImageIcon,
+  Upload,
+  X,
+  FileText,
 } from "lucide-vue-next";
 
 const router = useRouter();
@@ -554,6 +641,7 @@ const formData = ref({
   agencyId: "",
   billNo: "",
   billDate: new Date().toISOString().split("T")[0],
+  billImage: "",
   items: [
     {
       srNo: 1,
@@ -646,6 +734,52 @@ const calculateItemAmount = (item) => {
   item.amount = item.taxable + gstAmount;
 };
 
+const handleImageUpload = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    // Validate file size (5MB limit)
+    if (file.size > 5 * 1024 * 1024) {
+      alert("File size must be less than 5MB");
+      event.target.value = "";
+      return;
+    }
+
+    // Validate file type
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/jpg",
+      "application/pdf",
+    ];
+    if (!allowedTypes.includes(file.type)) {
+      alert("Only JPG, PNG, and PDF files are allowed");
+      event.target.value = "";
+      return;
+    }
+
+    // For images, convert to base64 for preview
+    if (file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        formData.value.billImage = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      // For PDFs, just store the file info
+      formData.value.billImage = `PDF: ${file.name}`;
+    }
+  }
+};
+
+const removeImage = () => {
+  formData.value.billImage = "";
+  // Clear the file input
+  const fileInput = document.querySelector('input[type="file"]');
+  if (fileInput) {
+    fileInput.value = "";
+  }
+};
+
 const openAddModal = () => {
   router.push("/purchase/add");
 };
@@ -685,6 +819,7 @@ const editPurchase = (purchase) => {
     agencyId: purchase.agencyId,
     billNo: purchase.billNo,
     billDate: purchase.billDate,
+    billImage: purchase.billImage || "",
     items: [...(purchase.items || [])],
   };
   showAddModal.value = true;

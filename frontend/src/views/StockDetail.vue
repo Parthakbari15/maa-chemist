@@ -342,6 +342,17 @@
                 <p class="text-xs text-gray-500">
                   {{ formatDate(purchase.date) }}
                 </p>
+                <div
+                  v-if="purchase.billImage"
+                  class="flex items-center space-x-1 mt-1"
+                >
+                  <ImageIcon class="h-3 w-3 text-green-500" />
+                  <span class="text-xs text-green-600">
+                    {{
+                      purchase.billImage.startsWith("data:") ? "Bill" : "PDF"
+                    }}
+                  </span>
+                </div>
               </div>
               <div class="text-right">
                 <p class="font-medium text-gray-900">
@@ -413,6 +424,7 @@ import {
   ChevronRight,
   AlertCircle,
   Activity,
+  ImageIcon,
 } from "lucide-vue-next";
 
 const route = useRoute();

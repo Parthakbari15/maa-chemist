@@ -51,213 +51,220 @@
     </div>
 
     <!-- Sale Details -->
-    <div v-else-if="sale" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <!-- Main Information -->
-      <div class="lg:col-span-2 space-y-6">
-        <!-- Product Info Card -->
-        <div class="card">
-          <div class="flex items-center space-x-3 mb-6">
-            <div class="bg-green-100 rounded-lg p-3">
-              <IndianRupee class="h-6 w-6 text-green-600" />
-            </div>
-            <div>
-              <h2 class="text-xl font-bold text-gray-900">
-                {{ sale.productName }}
-              </h2>
-              <p class="text-gray-600">Sales Information</p>
-            </div>
+    <div v-else-if="sale" class="space-y-6">
+      <!-- Basic Sale Information -->
+      <div class="card">
+        <div class="flex items-center space-x-3 mb-6">
+          <div class="bg-green-100 rounded-lg p-3">
+            <IndianRupee class="h-6 w-6 text-green-600" />
           </div>
-
-          <!-- Bill Information (for complex sales) -->
-          <div v-if="sale.billNo" class="mb-6 p-4 bg-gray-50 rounded-lg">
-            <h3 class="font-semibold text-gray-900 mb-3">Bill Information</h3>
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1"
-                  >Bill Number</label
-                >
-                <p class="font-medium">{{ sale.billNo }}</p>
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1"
-                  >Bill Date</label
-                >
-                <p class="font-medium">{{ formatDate(sale.billDate) }}</p>
-              </div>
-              <div v-if="sale.toName">
-                <label class="block text-sm font-medium text-gray-700 mb-1"
-                  >Customer</label
-                >
-                <p class="font-medium">{{ sale.toName }}</p>
-              </div>
-              <div v-if="sale.toMobile">
-                <label class="block text-sm font-medium text-gray-700 mb-1"
-                  >Mobile</label
-                >
-                <p class="font-medium">{{ sale.toMobile }}</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-2 gap-6">
-            <div class="space-y-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1"
-                  >Quantity Sold</label
-                >
-                <div class="flex items-center space-x-2">
-                  <span class="text-2xl font-bold text-gray-900">{{
-                    sale.quantity
-                  }}</span>
-                  <span class="text-sm text-gray-500">units</span>
-                </div>
-              </div>
-
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1"
-                  >Sale Price</label
-                >
-                <div class="flex items-center space-x-2">
-                  <span class="text-2xl font-bold text-green-600"
-                    >₹{{ (sale.salePrice || 0).toFixed(2) }}</span
-                  >
-                  <span class="text-sm text-gray-500">per unit</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="space-y-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1"
-                  >Total Revenue</label
-                >
-                <div class="flex items-center space-x-2">
-                  <span class="text-3xl font-bold text-green-600"
-                    >₹{{ (sale.total || 0).toFixed(2) }}</span
-                  >
-                </div>
-              </div>
-
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1"
-                  >Sale Date</label
-                >
-                <div class="flex items-center space-x-2">
-                  <Calendar class="h-4 w-4 text-gray-500" />
-                  <span class="font-medium text-gray-900">{{
-                    formatDate(sale.date)
-                  }}</span>
-                </div>
-              </div>
-            </div>
+          <div>
+            <h2 class="text-xl font-bold text-gray-900">Sale Information</h2>
+            <p class="text-gray-600">Basic sale details</p>
           </div>
         </div>
 
-        <!-- Profit Analysis Card -->
-        <div class="card">
-          <div class="flex items-center space-x-3 mb-6">
-            <div class="bg-purple-100 rounded-lg p-3">
-              <TrendingUp class="h-6 w-6 text-purple-600" />
-            </div>
-            <div>
-              <h2 class="text-xl font-bold text-gray-900">Profit Analysis</h2>
-              <p class="text-gray-600">Financial performance of this sale</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Bill Number</label
+            >
+            <p class="font-medium text-gray-900">{{ sale.billNo || "N/A" }}</p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Bill Date</label
+            >
+            <p class="font-medium text-gray-900">
+              {{ formatDate(sale.billDate) }}
+            </p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Payment Type</label
+            >
+            <p class="font-medium text-gray-900">
+              {{ sale.paymentType || "N/A" }}
+            </p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Total Amount</label
+            >
+            <p class="font-bold text-lg text-green-600">
+              ₹{{ (sale.grandTotal || sale.total || 0).toFixed(2) }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Customer Information -->
+      <div class="card">
+        <div class="flex items-center space-x-3 mb-6">
+          <div class="bg-blue-100 rounded-lg p-3">
+            <User class="h-6 w-6 text-blue-600" />
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-gray-900">
+              Customer Information
+            </h2>
+            <p class="text-gray-600">
+              Customer details and contact information
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Customer Name</label
+            >
+            <p class="font-medium text-gray-900">{{ sale.toName || "N/A" }}</p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Mobile Number</label
+            >
+            <div class="flex items-center space-x-2">
+              <Phone class="h-4 w-4 text-gray-500" />
+              <p class="font-medium text-gray-900">
+                {{ sale.toMobile || "N/A" }}
+              </p>
             </div>
           </div>
+        </div>
+      </div>
 
-          <div class="grid grid-cols-3 gap-4">
-            <div class="text-center p-4 bg-green-50 rounded-lg">
-              <p class="text-sm text-green-600 font-medium">Revenue</p>
-              <p class="text-2xl font-bold text-green-900">
-                ₹{{ (sale.total || 0).toFixed(2) }}
-              </p>
-            </div>
-            <div class="text-center p-4 bg-red-50 rounded-lg">
-              <p class="text-sm text-red-600 font-medium">Cost</p>
-              <p class="text-2xl font-bold text-red-900">
-                ₹{{ totalCost.toFixed(2) }}
-              </p>
-            </div>
-            <div class="text-center p-4 bg-purple-50 rounded-lg">
-              <p class="text-sm text-purple-600 font-medium">Profit</p>
-              <p
-                class="text-2xl font-bold"
-                :class="profit >= 0 ? 'text-purple-900' : 'text-red-900'"
-              >
-                ₹{{ profit.toFixed(2) }}
-              </p>
-            </div>
+      <!-- Product Information -->
+      <div class="card">
+        <div class="flex items-center space-x-3 mb-6">
+          <div class="bg-purple-100 rounded-lg p-3">
+            <Package class="h-6 w-6 text-purple-600" />
           </div>
+          <div>
+            <h2 class="text-xl font-bold text-gray-900">Product Information</h2>
+            <p class="text-gray-600">Product details and pricing</p>
+          </div>
+        </div>
 
-          <div class="mt-4">
-            <div class="flex justify-between items-center mb-2">
-              <span class="text-sm font-medium text-gray-700"
-                >Profit Margin</span
-              >
-              <span
-                class="text-sm font-bold"
-                :class="profitMargin >= 0 ? 'text-green-600' : 'text-red-600'"
-              >
-                {{ profitMargin.toFixed(1) }}%
-              </span>
-            </div>
-            <div class="w-full bg-gray-200 rounded-full h-2">
-              <div
-                :class="[
-                  'h-2 rounded-full transition-all duration-500',
-                  profitMargin >= 0 ? 'bg-green-500' : 'bg-red-500',
-                ]"
-                :style="{ width: `${Math.abs(profitMargin)}%` }"
-              ></div>
-            </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Product Name</label
+            >
+            <p class="font-medium text-gray-900">
+              {{ sale.productName || "N/A" }}
+            </p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Quantity Sold</label
+            >
+            <p class="font-medium text-gray-900">
+              {{ sale.quantity || 0 }} units
+            </p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Sale Price</label
+            >
+            <p class="font-medium text-gray-900">
+              ₹{{ (sale.salePrice || 0).toFixed(2) }}
+            </p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Total Revenue</label
+            >
+            <p class="font-bold text-lg text-green-600">
+              ₹{{ (sale.total || 0).toFixed(2) }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profit Analysis Card -->
+      <div class="card">
+        <div class="flex items-center space-x-3 mb-6">
+          <div class="bg-purple-100 rounded-lg p-3">
+            <TrendingUp class="h-6 w-6 text-purple-600" />
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-gray-900">Profit Analysis</h2>
+            <p class="text-gray-600">Financial performance of this sale</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-4">
+          <div class="text-center p-4 bg-green-50 rounded-lg">
+            <p class="text-sm text-green-600 font-medium">Revenue</p>
+            <p class="text-2xl font-bold text-green-900">
+              ₹{{ (sale.total || 0).toFixed(2) }}
+            </p>
+          </div>
+          <div class="text-center p-4 bg-red-50 rounded-lg">
+            <p class="text-sm text-red-600 font-medium">Cost</p>
+            <p class="text-2xl font-bold text-red-900">
+              ₹{{ totalCost.toFixed(2) }}
+            </p>
+          </div>
+          <div class="text-center p-4 bg-purple-50 rounded-lg">
+            <p class="text-sm text-purple-600 font-medium">Profit</p>
+            <p
+              class="text-2xl font-bold"
+              :class="profit >= 0 ? 'text-purple-900' : 'text-red-900'"
+            >
+              ₹{{ profit.toFixed(2) }}
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-sm font-medium text-gray-700">Profit Margin</span>
+            <span
+              class="text-sm font-bold"
+              :class="profitMargin >= 0 ? 'text-green-600' : 'text-red-600'"
+            >
+              {{ profitMargin.toFixed(1) }}%
+            </span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2">
+            <div
+              :class="[
+                'h-2 rounded-full transition-all duration-500',
+                profitMargin >= 0 ? 'bg-green-500' : 'bg-red-500',
+              ]"
+              :style="{ width: `${Math.abs(profitMargin)}%` }"
+            ></div>
           </div>
         </div>
       </div>
 
       <!-- Sidebar Information -->
       <div class="space-y-6">
-        <!-- Sale Info Card -->
+        <!-- Stock Status Card -->
         <div class="card">
-          <div class="flex items-center space-x-3 mb-4">
-            <div class="bg-gray-100 rounded-lg p-2">
-              <ShoppingCart class="h-5 w-5 text-gray-600" />
+          <div class="flex items-center space-x-3 mb-6">
+            <div class="bg-blue-100 rounded-lg p-3">
+              <Package class="h-6 w-6 text-blue-600" />
             </div>
-            <h3 class="font-semibold text-gray-900">Sale Information</h3>
+            <div>
+              <h2 class="text-xl font-bold text-gray-900">Stock Status</h2>
+              <p class="text-gray-600">Current inventory status</p>
+            </div>
           </div>
 
           <div class="space-y-3">
             <div class="flex justify-between items-center">
-              <span class="text-sm text-gray-600">Sale ID</span>
-              <span class="font-medium">#{{ sale.id }}</span>
+              <span class="text-sm text-gray-600">Available Stock</span>
+              <span class="font-medium text-blue-600">{{ currentStock }}</span>
             </div>
             <div class="flex justify-between items-center">
-              <span class="text-sm text-gray-600">Sale Date</span>
-              <span class="font-medium">{{ formatDate(sale.date) }}</span>
-            </div>
-            <div class="flex justify-between items-center">
-              <span class="text-sm text-gray-600">Status</span>
-              <span class="badge badge-success">Completed</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Stock Impact Card -->
-        <div class="card">
-          <div class="flex items-center space-x-3 mb-4">
-            <div class="bg-blue-100 rounded-lg p-2">
-              <Package class="h-5 w-5 text-blue-600" />
-            </div>
-            <h3 class="font-semibold text-gray-900">Stock Impact</h3>
-          </div>
-
-          <div class="space-y-3">
-            <div class="flex justify-between items-center">
-              <span class="text-sm text-gray-600">Stock Before</span>
-              <span class="font-medium">{{ stockBeforeSale }}</span>
-            </div>
-            <div class="flex justify-between items-center">
-              <span class="text-sm text-gray-600">Quantity Sold</span>
-              <span class="font-medium text-red-600">-{{ sale.quantity }}</span>
+              <span class="text-sm text-gray-600">Items Sold</span>
+              <span class="font-medium text-red-600"
+                >-{{ sale.quantity || 0 }}</span
+              >
             </div>
             <div class="flex justify-between items-center">
               <span class="text-sm text-gray-600">Current Stock</span>
@@ -294,7 +301,7 @@
           </div>
         </div>
 
-        <!-- Related Transactions -->
+        <!-- Related Purchases -->
         <div class="card">
           <h3 class="font-semibold text-gray-900 mb-4">Related Purchases</h3>
           <div class="space-y-2">
@@ -311,6 +318,17 @@
                 <p class="text-xs text-gray-500">
                   {{ formatDate(purchase.date) }}
                 </p>
+                <div
+                  v-if="purchase.billImage"
+                  class="flex items-center space-x-1 mt-1"
+                >
+                  <ImageIcon class="h-3 w-3 text-green-500" />
+                  <span class="text-xs text-green-600">
+                    {{
+                      purchase.billImage.startsWith("data:") ? "Bill" : "PDF"
+                    }}
+                  </span>
+                </div>
               </div>
               <div class="text-right">
                 <p class="font-medium text-gray-900">
@@ -331,7 +349,6 @@
     </div>
   </div>
 </template>
-
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -350,6 +367,9 @@ import {
   Printer,
   ChevronRight,
   AlertCircle,
+  ImageIcon,
+  User,
+  Phone,
 } from "lucide-vue-next";
 
 const route = useRoute();
@@ -461,7 +481,81 @@ const viewPurchaseDetail = (purchaseId) => {
 };
 
 const printDetails = () => {
-  window.print();
+  // Create a simplified print format similar to the purchase print
+  const printContent = `
+    <html>
+      <head>
+        <title>Sales Bill - ${sale.value.billNo || "N/A"}</title>
+        <style>
+          body { font-family: Arial, sans-serif; margin: 20px; }
+          .header { text-align: center; margin-bottom: 30px; }
+          .company-name { font-size: 24px; font-weight: bold; }
+          .company-details { font-size: 12px; color: #666; }
+          .bill-info { display: flex; justify-content: space-between; margin: 20px 0; border-bottom: 2px solid #000; padding-bottom: 10px; }
+          .customer-info { margin: 20px 0; }
+          .items-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+          .items-table th, .items-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+          .items-table th { background-color: #f2f2f2; font-weight: bold; }
+          .totals { margin-top: 20px; text-align: right; }
+          .total-row { font-weight: bold; font-size: 16px; margin: 5px 0; }
+          @media print { body { margin: 10px; }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <div class="company-name">Maa Chemist</div>
+          <div class="company-details">Medical & General Store | GSTIN: 07AAAPM1234C1ZY</div>
+          <div class="company-details">Shop No. 45, Main Market, Delhi - 110001</div>
+          <div class="company-details">Phone: +91-9876543210 | Email: info@maachemist.com</div>
+        </div>
+        
+        <div class="bill-info">
+          <div>
+            <strong>Bill No:</strong> ${sale.value.billNo || "N/A"}
+          </div>
+          <div>
+            <strong>Date:</strong> ${sale.value.billDate || new Date().toLocaleDateString("en-IN")}
+          </div>
+        </div>
+        
+        <div class="customer-info">
+          <h3>Customer Details</h3>
+          <p><strong>Name:</strong> ${sale.value.toName || "N/A"}</p>
+          <p><strong>Mobile:</strong> ${sale.value.toMobile || "N/A"}</p>
+        </div>
+        
+        <table class="items-table">
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Quantity</th>
+              <th>Rate</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>${sale.value.productName || "N/A"}</td>
+              <td>${sale.value.quantity || 0}</td>
+              <td>₹${(sale.value.salePrice || 0).toFixed(2)}</td>
+              <td>₹${(sale.value.total || 0).toFixed(2)}</td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <div class="totals">
+          <div class="total-row">
+            Total Amount: ₹${(sale.value.total || 0).toFixed(2)}
+          </div>
+        </div>
+      </body>
+    </html>
+  `;
+
+  const printWindow = window.open("", "_blank");
+  printWindow.document.write(printContent);
+  printWindow.document.close();
+  printWindow.print();
 };
 
 onMounted(async () => {

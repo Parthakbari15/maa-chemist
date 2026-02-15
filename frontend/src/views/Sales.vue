@@ -121,6 +121,11 @@
               <th
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
+                Mobile
+              </th>
+              <th
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
                 Payment
               </th>
               <th
@@ -156,7 +161,13 @@
                 {{ sale.billDate }}
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {{ sale.toName }}
+                {{ sale.toName || "N/A" }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <div class="flex items-center space-x-1">
+                  <Phone class="h-3 w-3 text-gray-400" />
+                  <span>{{ sale.toMobile || "N/A" }}</span>
+                </div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 <span
@@ -679,6 +690,7 @@ import {
   Search,
   Trash2,
   TrendingUp,
+  Phone,
 } from "lucide-vue-next";
 
 const router = useRouter();
