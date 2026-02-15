@@ -27,6 +27,51 @@
       "date": "2026-02-14T18:51:32.859Z",
       "agencyName": "Universal Agency",
       "id": 11
+    },
+    {
+      "agencyId": 3,
+      "billNo": "PO/2",
+      "billDate": "2026-02-15",
+      "items": [
+        {
+          "srNo": 1,
+          "hsn": "eew",
+          "productName": "Ketakonazol",
+          "pack": "1",
+          "mfg": "CIPLA",
+          "tQty": 10,
+          "freeQty": 0,
+          "mrp": 100,
+          "batchNo": "mns123",
+          "exp": "2026-03-14",
+          "rate": 60,
+          "discount": 5,
+          "taxable": 570,
+          "gst": 12,
+          "amount": 638.4
+        },
+        {
+          "srNo": 2,
+          "hsn": "ND",
+          "productName": "Levocetrizin",
+          "pack": "1",
+          "mfg": "CIPLA",
+          "tQty": 15,
+          "freeQty": 0,
+          "mrp": 80,
+          "batchNo": "btqwe12",
+          "exp": "2026-03-14",
+          "rate": 60,
+          "discount": 2,
+          "taxable": 882,
+          "gst": 5,
+          "amount": 926.1
+        }
+      ],
+      "agencyName": "Universal Agency",
+      "billTotal": 1564.5,
+      "date": "2026-02-15T08:27:37.466Z",
+      "id": 12
     }
   ],
   "sales": [
