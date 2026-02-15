@@ -33,7 +33,7 @@
       <div class="card">
         <div class="flex items-center">
           <div class="p-3 bg-green-100 rounded-lg">
-            <DollarSign class="h-6 w-6 text-green-600" />
+            <IndianRupee class="h-6 w-6 text-green-600" />
           </div>
           <div class="ml-4">
             <p class="text-sm font-medium text-gray-600">Total Amount</p>
@@ -107,6 +107,11 @@
               <th
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
+                Bill Image
+              </th>
+              <th
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
                 Actions
               </th>
             </tr>
@@ -134,6 +139,20 @@
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                 ₹{{ purchase.billTotal?.toFixed(2) || "0.00" }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <div
+                  v-if="purchase.billImage"
+                  class="flex items-center space-x-2"
+                >
+                  <ImageIcon class="h-4 w-4 text-green-500" />
+                  <span class="text-xs text-green-600 font-medium">
+                    {{
+                      purchase.billImage.startsWith("data:") ? "Image" : "PDF"
+                    }}
+                  </span>
+                </div>
+                <span v-else class="text-xs text-gray-400">No image</span>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                 <button
@@ -516,7 +535,7 @@ import { useAgencyStore } from "@/stores/agencyStore";
 import {
   Plus,
   ShoppingCart,
-  DollarSign,
+  IndianRupee,
   Package,
   Search,
   Trash2,

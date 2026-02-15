@@ -58,69 +58,95 @@
         <div class="card">
           <div class="flex items-center space-x-3 mb-6">
             <div class="bg-green-100 rounded-lg p-3">
-              <DollarSign class="h-6 w-6 text-green-600" />
+              <IndianRupee class="h-6 w-6 text-green-600" />
             </div>
             <div>
-              <h2 class="text-xl font-bold text-gray-900">{{ sale.productName }}</h2>
+              <h2 class="text-xl font-bold text-gray-900">
+                {{ sale.productName }}
+              </h2>
               <p class="text-gray-600">Sales Information</p>
             </div>
           </div>
-          
+
           <!-- Bill Information (for complex sales) -->
           <div v-if="sale.billNo" class="mb-6 p-4 bg-gray-50 rounded-lg">
             <h3 class="font-semibold text-gray-900 mb-3">Bill Information</h3>
             <div class="grid grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Bill Number</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Bill Number</label
+                >
                 <p class="font-medium">{{ sale.billNo }}</p>
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Bill Date</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Bill Date</label
+                >
                 <p class="font-medium">{{ formatDate(sale.billDate) }}</p>
               </div>
               <div v-if="sale.toName">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Customer</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Customer</label
+                >
                 <p class="font-medium">{{ sale.toName }}</p>
               </div>
               <div v-if="sale.toMobile">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Mobile</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Mobile</label
+                >
                 <p class="font-medium">{{ sale.toMobile }}</p>
               </div>
             </div>
           </div>
-          
+
           <div class="grid grid-cols-2 gap-6">
             <div class="space-y-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Quantity Sold</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Quantity Sold</label
+                >
                 <div class="flex items-center space-x-2">
-                  <span class="text-2xl font-bold text-gray-900">{{ sale.quantity }}</span>
+                  <span class="text-2xl font-bold text-gray-900">{{
+                    sale.quantity
+                  }}</span>
                   <span class="text-sm text-gray-500">units</span>
                 </div>
               </div>
-              
+
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Sale Price</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Sale Price</label
+                >
                 <div class="flex items-center space-x-2">
-                  <span class="text-2xl font-bold text-green-600">${{ (sale.salePrice || 0).toFixed(2) }}</span>
+                  <span class="text-2xl font-bold text-green-600"
+                    >₹{{ (sale.salePrice || 0).toFixed(2) }}</span
+                  >
                   <span class="text-sm text-gray-500">per unit</span>
                 </div>
               </div>
             </div>
-            
+
             <div class="space-y-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Total Revenue</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Total Revenue</label
+                >
                 <div class="flex items-center space-x-2">
-                  <span class="text-3xl font-bold text-green-600">${{ (sale.total || 0).toFixed(2) }}</span>
+                  <span class="text-3xl font-bold text-green-600"
+                    >₹{{ (sale.total || 0).toFixed(2) }}</span
+                  >
                 </div>
               </div>
-              
+
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Sale Date</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Sale Date</label
+                >
                 <div class="flex items-center space-x-2">
                   <Calendar class="h-4 w-4 text-gray-500" />
-                  <span class="font-medium text-gray-900">{{ formatDate(sale.date) }}</span>
+                  <span class="font-medium text-gray-900">{{
+                    formatDate(sale.date)
+                  }}</span>
                 </div>
               </div>
             </div>
@@ -138,28 +164,40 @@
               <p class="text-gray-600">Financial performance of this sale</p>
             </div>
           </div>
-          
+
           <div class="grid grid-cols-3 gap-4">
             <div class="text-center p-4 bg-green-50 rounded-lg">
               <p class="text-sm text-green-600 font-medium">Revenue</p>
-              <p class="text-2xl font-bold text-green-900">${{ (sale.total || 0).toFixed(2) }}</p>
+              <p class="text-2xl font-bold text-green-900">
+                ₹{{ (sale.total || 0).toFixed(2) }}
+              </p>
             </div>
             <div class="text-center p-4 bg-red-50 rounded-lg">
               <p class="text-sm text-red-600 font-medium">Cost</p>
-              <p class="text-2xl font-bold text-red-900">${{ totalCost.toFixed(2) }}</p>
+              <p class="text-2xl font-bold text-red-900">
+                ₹{{ totalCost.toFixed(2) }}
+              </p>
             </div>
             <div class="text-center p-4 bg-purple-50 rounded-lg">
               <p class="text-sm text-purple-600 font-medium">Profit</p>
-              <p class="text-2xl font-bold" :class="profit >= 0 ? 'text-purple-900' : 'text-red-900'">
-                ${{ profit.toFixed(2) }}
+              <p
+                class="text-2xl font-bold"
+                :class="profit >= 0 ? 'text-purple-900' : 'text-red-900'"
+              >
+                ₹{{ profit.toFixed(2) }}
               </p>
             </div>
           </div>
-          
+
           <div class="mt-4">
             <div class="flex justify-between items-center mb-2">
-              <span class="text-sm font-medium text-gray-700">Profit Margin</span>
-              <span class="text-sm font-bold" :class="profitMargin >= 0 ? 'text-green-600' : 'text-red-600'">
+              <span class="text-sm font-medium text-gray-700"
+                >Profit Margin</span
+              >
+              <span
+                class="text-sm font-bold"
+                :class="profitMargin >= 0 ? 'text-green-600' : 'text-red-600'"
+              >
                 {{ profitMargin.toFixed(1) }}%
               </span>
             </div>
@@ -167,7 +205,7 @@
               <div
                 :class="[
                   'h-2 rounded-full transition-all duration-500',
-                  profitMargin >= 0 ? 'bg-green-500' : 'bg-red-500'
+                  profitMargin >= 0 ? 'bg-green-500' : 'bg-red-500',
                 ]"
                 :style="{ width: `${Math.abs(profitMargin)}%` }"
               ></div>
@@ -186,7 +224,7 @@
             </div>
             <h3 class="font-semibold text-gray-900">Sale Information</h3>
           </div>
-          
+
           <div class="space-y-3">
             <div class="flex justify-between items-center">
               <span class="text-sm text-gray-600">Sale ID</span>
@@ -211,7 +249,7 @@
             </div>
             <h3 class="font-semibold text-gray-900">Stock Impact</h3>
           </div>
-          
+
           <div class="space-y-3">
             <div class="flex justify-between items-center">
               <span class="text-sm text-gray-600">Stock Before</span>
@@ -267,15 +305,24 @@
               @click="viewPurchaseDetail(purchase.id)"
             >
               <div>
-                <p class="font-medium text-gray-900">{{ purchase.quantity }} units</p>
-                <p class="text-xs text-gray-500">{{ formatDate(purchase.date) }}</p>
+                <p class="font-medium text-gray-900">
+                  {{ purchase.quantity }} units
+                </p>
+                <p class="text-xs text-gray-500">
+                  {{ formatDate(purchase.date) }}
+                </p>
               </div>
               <div class="text-right">
-                <p class="font-medium text-gray-900">${{ (purchase.total || 0).toFixed(2) }}</p>
+                <p class="font-medium text-gray-900">
+                  ₹{{ (purchase.total || 0).toFixed(2) }}
+                </p>
                 <ChevronRight class="h-4 w-4 text-gray-400 inline" />
               </div>
             </div>
-            <div v-if="relatedPurchases.length === 0" class="text-center text-gray-500 py-4">
+            <div
+              v-if="relatedPurchases.length === 0"
+              class="text-center text-gray-500 py-4"
+            >
               <p class="text-sm">No related purchases found</p>
             </div>
           </div>
@@ -286,147 +333,153 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useSalesStore } from '@/stores/salesStore'
-import { usePurchaseStore } from '@/stores/purchaseStore'
-import { useStockStore } from '@/stores/stockStore'
+import { ref, computed, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useSalesStore } from "@/stores/salesStore";
+import { usePurchaseStore } from "@/stores/purchaseStore";
+import { useStockStore } from "@/stores/stockStore";
 import {
   ArrowLeft,
   Edit,
   Trash2,
-  DollarSign,
+  IndianRupee,
   Calendar,
   TrendingUp,
   ShoppingCart,
   Package,
   Printer,
   ChevronRight,
-  AlertCircle
-} from 'lucide-vue-next'
+  AlertCircle,
+} from "lucide-vue-next";
 
-const route = useRoute()
-const router = useRouter()
-const salesStore = useSalesStore()
-const purchaseStore = usePurchaseStore()
-const stockStore = useStockStore()
+const route = useRoute();
+const router = useRouter();
+const salesStore = useSalesStore();
+const purchaseStore = usePurchaseStore();
+const stockStore = useStockStore();
 
-const loading = ref(true)
-const error = ref(null)
+const loading = ref(true);
+const error = ref(null);
 
 const sale = computed(() => {
-  const saleData = salesStore.getSaleById(parseInt(route.params.id))
-  if (!saleData) return null
-  
+  const saleData = salesStore.getSaleById(parseInt(route.params.id));
+  if (!saleData) return null;
+
   // Handle complex sale structure (with items array) vs simple structure
   if (saleData.items && saleData.items.length > 0) {
     // Complex structure - use first item for display
-    const firstItem = saleData.items[0]
+    const firstItem = saleData.items[0];
     return {
       ...saleData,
       productName: firstItem.product,
       quantity: firstItem.qty,
       salePrice: firstItem.mrp,
-      total: saleData.grandTotal
-    }
+      total: saleData.grandTotal,
+    };
   }
-  
+
   // Simple structure - return as-is
-  return saleData
-})
+  return saleData;
+});
 
 const currentStock = computed(() => {
-  if (!sale.value) return 0
-  const stock = stockStore.getStockByProduct(sale.value.productName)
-  return stock?.availableStock || 0
-})
+  if (!sale.value) return 0;
+  const stock = stockStore.getStockByProduct(sale.value.productName);
+  return stock?.availableStock || 0;
+});
 
 const stockBeforeSale = computed(() => {
-  if (!sale.value) return 0
-  return currentStock.value + sale.value.quantity
-})
+  if (!sale.value) return 0;
+  return currentStock.value + sale.value.quantity;
+});
 
 const totalCost = computed(() => {
-  if (!sale.value) return 0
-  const stock = stockStore.getStockByProduct(sale.value.productName)
-  const avgPurchasePrice = stock?.totalPurchased > 0 ? stock.purchaseValue / stock.totalPurchased : 0
-  return sale.value.quantity * avgPurchasePrice
-})
+  if (!sale.value) return 0;
+  const stock = stockStore.getStockByProduct(sale.value.productName);
+  const avgPurchasePrice =
+    stock?.totalPurchased > 0 ? stock.purchaseValue / stock.totalPurchased : 0;
+  return sale.value.quantity * avgPurchasePrice;
+});
 
 const profit = computed(() => {
-  if (!sale.value) return 0
-  return sale.value.total - totalCost.value
-})
+  if (!sale.value) return 0;
+  return sale.value.total - totalCost.value;
+});
 
 const profitMargin = computed(() => {
-  if (!sale.value || sale.value.total === 0) return 0
-  return (profit.value / sale.value.total) * 100
-})
+  if (!sale.value || sale.value.total === 0) return 0;
+  return (profit.value / sale.value.total) * 100;
+});
 
 const relatedPurchases = computed(() => {
-  if (!sale.value) return []
-  return purchaseStore.getPurchasesByProduct(sale.value.productName)
+  if (!sale.value) return [];
+  return purchaseStore
+    .getPurchasesByProduct(sale.value.productName)
     .sort((a, b) => new Date(b.date) - new Date(a.date))
-    .slice(0, 5)
-})
+    .slice(0, 5);
+});
 
 const formatDate = (dateString) => {
-  return new Date(dateString).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric'
-  })
-}
+  return new Date(dateString).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+};
 
 const editSale = () => {
-  router.push('/sales')
-  sessionStorage.setItem('editSaleId', sale.value.id)
-}
+  router.push("/sales");
+  sessionStorage.setItem("editSaleId", sale.value.id);
+};
 
 const deleteSale = async () => {
-  if (confirm('Are you sure you want to delete this sale? This will add the quantity back to stock.')) {
+  if (
+    confirm(
+      "Are you sure you want to delete this sale? This will add the quantity back to stock.",
+    )
+  ) {
     try {
-      await salesStore.deleteSale(sale.value.id)
-      router.push('/sales')
+      await salesStore.deleteSale(sale.value.id);
+      router.push("/sales");
     } catch (error) {
-      console.error('Failed to delete sale:', error)
+      console.error("Failed to delete sale:", error);
     }
   }
-}
+};
 
 const createPurchase = () => {
-  router.push('/purchase')
-  sessionStorage.setItem('prefillProduct', sale.value.productName)
-}
+  router.push("/purchase");
+  sessionStorage.setItem("prefillProduct", sale.value.productName);
+};
 
 const viewStock = () => {
-  router.push(`/stocks/${encodeURIComponent(sale.value.productName)}`)
-}
+  router.push(`/stocks/${encodeURIComponent(sale.value.productName)}`);
+};
 
 const viewPurchaseDetail = (purchaseId) => {
-  router.push(`/purchase/${purchaseId}`)
-}
+  router.push(`/purchase/${purchaseId}`);
+};
 
 const printDetails = () => {
-  window.print()
-}
+  window.print();
+};
 
 onMounted(async () => {
   try {
     await Promise.all([
       salesStore.fetchSales(),
       purchaseStore.fetchPurchases(),
-      stockStore.refreshStock()
-    ])
-    
+      stockStore.refreshStock(),
+    ]);
+
     if (!sale.value) {
-      error.value = 'Sale not found'
+      error.value = "Sale not found";
     }
   } catch (err) {
-    error.value = 'Failed to load sale details'
-    console.error('Error loading sale details:', err)
+    error.value = "Failed to load sale details";
+    console.error("Error loading sale details:", err);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-})
+});
 </script>

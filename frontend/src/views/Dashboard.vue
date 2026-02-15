@@ -25,19 +25,19 @@
         format="currency"
         :loading="purchaseStore.loading"
       />
-      
+
       <AnalyticsCard
         title="Total Sales"
         subtitle="All time"
         :value="salesStore.totalSales"
-        :icon="DollarSign"
+        :icon="IndianRupee"
         custom-class="border-l-4 border-green-500"
         bg-color="bg-green-100"
         icon-color="text-green-600"
         format="currency"
         :loading="salesStore.loading"
       />
-      
+
       <AnalyticsCard
         title="Total Profit"
         subtitle="Sales - Purchases"
@@ -50,7 +50,7 @@
         :trend="profitTrend"
         :loading="purchaseStore.loading || salesStore.loading"
       />
-      
+
       <AnalyticsCard
         title="Total Stock"
         subtitle="Available quantity"
@@ -84,7 +84,10 @@
             :data="chartData.purchasesVsSales"
             :options="chartOptions.bar"
           />
-          <div v-else class="flex items-center justify-center h-full text-gray-500">
+          <div
+            v-else
+            class="flex items-center justify-center h-full text-gray-500"
+          >
             <div class="text-center">
               <BarChart3 class="h-12 w-12 mx-auto mb-2 text-gray-300" />
               <p>No data available</p>
@@ -96,8 +99,14 @@
       <!-- Monthly Sales Trend -->
       <div class="card">
         <div class="flex items-center justify-between mb-6">
-          <h2 class="text-lg font-semibold text-gray-900">Monthly Sales Trend</h2>
-          <select v-model="selectedYear" @change="updateMonthlyChart" class="input text-sm">
+          <h2 class="text-lg font-semibold text-gray-900">
+            Monthly Sales Trend
+          </h2>
+          <select
+            v-model="selectedYear"
+            @change="updateMonthlyChart"
+            class="input text-sm"
+          >
             <option v-for="year in availableYears" :key="year" :value="year">
               {{ year }}
             </option>
@@ -109,7 +118,10 @@
             :data="chartData.monthlySales"
             :options="chartOptions.line"
           />
-          <div v-else class="flex items-center justify-center h-full text-gray-500">
+          <div
+            v-else
+            class="flex items-center justify-center h-full text-gray-500"
+          >
             <div class="text-center">
               <LineChart class="h-12 w-12 mx-auto mb-2 text-gray-300" />
               <p>No sales data available</p>
@@ -135,10 +147,17 @@
             :key="item.productName"
             class="flex items-center justify-between p-2 bg-yellow-50 rounded-lg"
           >
-            <span class="text-sm font-medium text-gray-900">{{ item.productName }}</span>
-            <span class="text-sm text-yellow-700 font-medium">{{ item.availableStock }} left</span>
+            <span class="text-sm font-medium text-gray-900">{{
+              item.productName
+            }}</span>
+            <span class="text-sm text-yellow-700 font-medium"
+              >{{ item.availableStock }} left</span
+            >
           </div>
-          <div v-if="stockStore.lowStockItems.length === 0" class="text-center text-gray-500 py-4">
+          <div
+            v-if="stockStore.lowStockItems.length === 0"
+            class="text-center text-gray-500 py-4"
+          >
             <CheckCircle class="h-8 w-8 mx-auto mb-2 text-green-500" />
             <p class="text-sm">All items well stocked</p>
           </div>
@@ -165,14 +184,21 @@
             class="flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg"
           >
             <div>
-              <p class="text-sm font-medium text-gray-900">{{ purchase.productName }}</p>
-              <p class="text-xs text-gray-500">{{ formatDate(purchase.date) }}</p>
+              <p class="text-sm font-medium text-gray-900">
+                {{ purchase.productName }}
+              </p>
+              <p class="text-xs text-gray-500">
+                {{ formatDate(purchase.date) }}
+              </p>
             </div>
             <span class="text-sm font-medium text-gray-900">
-              ${{ (purchase.quantity * purchase.purchasePrice).toFixed(2) }}
+              ₹{{ (purchase.quantity * purchase.purchasePrice).toFixed(2) }}
             </span>
           </div>
-          <div v-if="recentPurchases.length === 0" class="text-center text-gray-500 py-4">
+          <div
+            v-if="recentPurchases.length === 0"
+            class="text-center text-gray-500 py-4"
+          >
             <p class="text-sm">No recent purchases</p>
           </div>
         </div>
@@ -182,7 +208,7 @@
       <div class="card">
         <div class="flex items-center space-x-3 mb-4">
           <div class="bg-green-100 rounded-lg p-2">
-            <DollarSign class="h-5 w-5 text-green-600" />
+            <IndianRupee class="h-5 w-5 text-green-600" />
           </div>
           <h3 class="font-semibold text-gray-900">Recent Sales</h3>
         </div>
@@ -193,14 +219,19 @@
             class="flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg"
           >
             <div>
-              <p class="text-sm font-medium text-gray-900">{{ sale.productName }}</p>
+              <p class="text-sm font-medium text-gray-900">
+                {{ sale.productName }}
+              </p>
               <p class="text-xs text-gray-500">{{ formatDate(sale.date) }}</p>
             </div>
             <span class="text-sm font-medium text-gray-900">
-              ${{ (sale.quantity * sale.salePrice).toFixed(2) }}
+              ₹{{ (sale.quantity * sale.salePrice).toFixed(2) }}
             </span>
           </div>
-          <div v-if="recentSales.length === 0" class="text-center text-gray-500 py-4">
+          <div
+            v-if="recentSales.length === 0"
+            class="text-center text-gray-500 py-4"
+          >
             <p class="text-sm">No recent sales</p>
           </div>
         </div>
@@ -217,8 +248,8 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
-import { Bar, Line } from 'vue-chartjs'
+import { ref, computed, onMounted, watch } from "vue";
+import { Bar, Line } from "vue-chartjs";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -229,18 +260,18 @@ import {
   Title,
   Tooltip,
   Legend,
-  Filler
-} from 'chart.js'
+  Filler,
+} from "chart.js";
 
-import { usePurchaseStore } from '@/stores/purchaseStore'
-import { useSalesStore } from '@/stores/salesStore'
-import { useStockStore } from '@/stores/stockStore'
-import AnalyticsCard from '@/components/AnalyticsCard.vue'
-import ExpiryModal from '@/components/ExpiryModal.vue'
+import { usePurchaseStore } from "@/stores/purchaseStore";
+import { useSalesStore } from "@/stores/salesStore";
+import { useStockStore } from "@/stores/stockStore";
+import AnalyticsCard from "@/components/AnalyticsCard.vue";
+import ExpiryModal from "@/components/ExpiryModal.vue";
 
 import {
   ShoppingCart,
-  DollarSign,
+  IndianRupee,
   TrendingUp,
   Package,
   Clock,
@@ -248,8 +279,8 @@ import {
   AlertTriangle,
   CheckCircle,
   BarChart3,
-  LineChart
-} from 'lucide-vue-next'
+  LineChart,
+} from "lucide-vue-next";
 
 // Register Chart.js components
 ChartJS.register(
@@ -261,22 +292,22 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  Filler
-)
+  Filler,
+);
 
-const purchaseStore = usePurchaseStore()
-const salesStore = useSalesStore()
-const stockStore = useStockStore()
+const purchaseStore = usePurchaseStore();
+const salesStore = useSalesStore();
+const stockStore = useStockStore();
 
-const loadingCharts = ref(false)
-const selectedYear = ref(new Date().getFullYear())
-const showExpiryModal = ref(false)
-const lastUpdated = ref(new Date().toLocaleTimeString())
+const loadingCharts = ref(false);
+const selectedYear = ref(new Date().getFullYear());
+const showExpiryModal = ref(false);
+const lastUpdated = ref(new Date().toLocaleTimeString());
 
 const chartData = ref({
   purchasesVsSales: null,
-  monthlySales: null
-})
+  monthlySales: null,
+});
 
 const chartOptions = {
   bar: {
@@ -284,244 +315,268 @@ const chartOptions = {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: 'top',
+        position: "top",
       },
       tooltip: {
         callbacks: {
-          label: function(context) {
-            return context.dataset.label + ': $' + context.parsed.y.toFixed(2)
-          }
-        }
-      }
+          label: function (context) {
+            return context.dataset.label + ": ₹" + context.parsed.y.toFixed(2);
+          },
+        },
+      },
     },
     scales: {
       y: {
         beginAtZero: true,
         ticks: {
-          callback: function(value) {
-            return '$' + value.toLocaleString()
-          }
-        }
-      }
-    }
+          callback: function (value) {
+            return "₹" + value.toLocaleString();
+          },
+        },
+      },
+    },
   },
   line: {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        display: false
+        display: false,
       },
       tooltip: {
         callbacks: {
-          label: function(context) {
-            return 'Sales: $' + context.parsed.y.toFixed(2)
-          }
-        }
-      }
+          label: function (context) {
+            return "Sales: ₹" + context.parsed.y.toFixed(2);
+          },
+        },
+      },
     },
     scales: {
       y: {
         beginAtZero: true,
         ticks: {
-          callback: function(value) {
-            return '$' + value.toLocaleString()
-          }
-        }
-      }
+          callback: function (value) {
+            return "₹" + value.toLocaleString();
+          },
+        },
+      },
     },
     elements: {
       line: {
-        tension: 0.4
-      }
-    }
-  }
-}
+        tension: 0.4,
+      },
+    },
+  },
+};
 
 // Computed properties
 const profitTrend = computed(() => {
   // Simple trend calculation - in real app, compare with previous period
-  const profit = stockStore.totalProfit
+  const profit = stockStore.totalProfit;
   if (profit > 0) {
-    return { isUp: true, value: 12.5 }
+    return { isUp: true, value: 12.5 };
   } else if (profit < 0) {
-    return { isUp: false, value: 8.3 }
+    return { isUp: false, value: 8.3 };
   }
-  return null
-})
+  return null;
+});
 
 const recentPurchases = computed(() => {
   return purchaseStore.purchases
     .slice()
     .sort((a, b) => new Date(b.date) - new Date(a.date))
-    .slice(0, 5)
-})
+    .slice(0, 5);
+});
 
 const recentSales = computed(() => {
   return salesStore.sales
     .slice()
     .sort((a, b) => new Date(b.date) - new Date(a.date))
-    .slice(0, 5)
-})
+    .slice(0, 5);
+});
 
 const expiringItems = computed(() => {
-  return purchaseStore.expiringSoon
-})
+  return purchaseStore.expiringSoon;
+});
 
 const availableYears = computed(() => {
-  const years = new Set()
-  const currentYear = new Date().getFullYear()
-  
-  salesStore.sales.forEach(sale => {
-    years.add(new Date(sale.date).getFullYear())
-  })
-  
-  purchaseStore.purchases.forEach(purchase => {
-    years.add(new Date(purchase.date).getFullYear())
-  })
-  
-  years.add(currentYear)
-  return Array.from(years).sort((a, b) => b - a)
-})
+  const years = new Set();
+  const currentYear = new Date().getFullYear();
+
+  salesStore.sales.forEach((sale) => {
+    years.add(new Date(sale.date).getFullYear());
+  });
+
+  purchaseStore.purchases.forEach((purchase) => {
+    years.add(new Date(purchase.date).getFullYear());
+  });
+
+  years.add(currentYear);
+  return Array.from(years).sort((a, b) => b - a);
+});
 
 // Methods
 const formatDate = (dateString) => {
-  return new Date(dateString).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric'
-  })
-}
+  return new Date(dateString).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  });
+};
 
 const preparePurchasesVsSalesChart = () => {
-  const monthlyData = {}
-  
+  const monthlyData = {};
+
   // Aggregate purchases by month
-  purchaseStore.purchases.forEach(purchase => {
-    const date = new Date(purchase.date)
-    const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`
-    
+  purchaseStore.purchases.forEach((purchase) => {
+    const date = new Date(purchase.date);
+    const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+
     if (!monthlyData[monthKey]) {
-      monthlyData[monthKey] = { purchases: 0, sales: 0 }
+      monthlyData[monthKey] = { purchases: 0, sales: 0 };
     }
-    
-    monthlyData[monthKey].purchases += purchase.quantity * purchase.purchasePrice
-  })
-  
+
+    monthlyData[monthKey].purchases +=
+      purchase.quantity * purchase.purchasePrice;
+  });
+
   // Aggregate sales by month
-  salesStore.sales.forEach(sale => {
-    const date = new Date(sale.date)
-    const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`
-    
+  salesStore.sales.forEach((sale) => {
+    const date = new Date(sale.date);
+    const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+
     if (!monthlyData[monthKey]) {
-      monthlyData[monthKey] = { purchases: 0, sales: 0 }
+      monthlyData[monthKey] = { purchases: 0, sales: 0 };
     }
-    
-    monthlyData[monthKey].sales += sale.quantity * sale.salePrice
-  })
-  
-  const sortedMonths = Object.keys(monthlyData).sort().slice(-6) // Last 6 months
-  
+
+    monthlyData[monthKey].sales += sale.quantity * sale.salePrice;
+  });
+
+  const sortedMonths = Object.keys(monthlyData).sort().slice(-6); // Last 6 months
+
   chartData.value.purchasesVsSales = {
-    labels: sortedMonths.map(month => {
-      const [year, monthNum] = month.split('-')
-      return new Date(year, monthNum - 1).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+    labels: sortedMonths.map((month) => {
+      const [year, monthNum] = month.split("-");
+      return new Date(year, monthNum - 1).toLocaleDateString("en-US", {
+        month: "short",
+        year: "numeric",
+      });
     }),
     datasets: [
       {
-        label: 'Purchases',
-        data: sortedMonths.map(month => monthlyData[month].purchases),
-        backgroundColor: 'rgba(59, 130, 246, 0.8)',
-        borderColor: 'rgba(59, 130, 246, 1)',
-        borderWidth: 1
+        label: "Purchases",
+        data: sortedMonths.map((month) => monthlyData[month].purchases),
+        backgroundColor: "rgba(59, 130, 246, 0.8)",
+        borderColor: "rgba(59, 130, 246, 1)",
+        borderWidth: 1,
       },
       {
-        label: 'Sales',
-        data: sortedMonths.map(month => monthlyData[month].sales),
-        backgroundColor: 'rgba(34, 197, 94, 0.8)',
-        borderColor: 'rgba(34, 197, 94, 1)',
-        borderWidth: 1
-      }
-    ]
-  }
-}
+        label: "Sales",
+        data: sortedMonths.map((month) => monthlyData[month].sales),
+        backgroundColor: "rgba(34, 197, 94, 0.8)",
+        borderColor: "rgba(34, 197, 94, 1)",
+        borderWidth: 1,
+      },
+    ],
+  };
+};
 
 const prepareMonthlySalesChart = () => {
-  const monthlySales = salesStore.getMonthlySales
-  
-  const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
-  const monthLabels = months.map(month => {
-    return new Date(selectedYear.value, parseInt(month) - 1).toLocaleDateString('en-US', { month: 'short' })
-  })
-  
-  const salesData = months.map(month => {
-    const monthKey = `${selectedYear.value}-${month}`
-    return monthlySales[monthKey] || 0
-  })
-  
+  const monthlySales = salesStore.getMonthlySales;
+
+  const months = [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12",
+  ];
+  const monthLabels = months.map((month) => {
+    return new Date(selectedYear.value, parseInt(month) - 1).toLocaleDateString(
+      "en-US",
+      { month: "short" },
+    );
+  });
+
+  const salesData = months.map((month) => {
+    const monthKey = `${selectedYear.value}-${month}`;
+    return monthlySales[monthKey] || 0;
+  });
+
   chartData.value.monthlySales = {
     labels: monthLabels,
     datasets: [
       {
-        label: 'Monthly Sales',
+        label: "Monthly Sales",
         data: salesData,
-        borderColor: 'rgba(34, 197, 94, 1)',
-        backgroundColor: 'rgba(34, 197, 94, 0.1)',
+        borderColor: "rgba(34, 197, 94, 1)",
+        backgroundColor: "rgba(34, 197, 94, 0.1)",
         borderWidth: 2,
         fill: true,
-        tension: 0.4
-      }
-    ]
-  }
-}
+        tension: 0.4,
+      },
+    ],
+  };
+};
 
 const refreshCharts = async () => {
-  loadingCharts.value = true
+  loadingCharts.value = true;
   try {
     await Promise.all([
       purchaseStore.fetchPurchases(),
-      salesStore.fetchSales()
-    ])
-    preparePurchasesVsSalesChart()
-    prepareMonthlySalesChart()
-    lastUpdated.value = new Date().toLocaleTimeString()
+      salesStore.fetchSales(),
+    ]);
+    preparePurchasesVsSalesChart();
+    prepareMonthlySalesChart();
+    lastUpdated.value = new Date().toLocaleTimeString();
   } catch (error) {
-    console.error('Failed to refresh charts:', error)
+    console.error("Failed to refresh charts:", error);
   } finally {
-    loadingCharts.value = false
+    loadingCharts.value = false;
   }
-}
+};
 
 const updateMonthlyChart = () => {
-  prepareMonthlySalesChart()
-}
+  prepareMonthlySalesChart();
+};
 
 const checkExpiryItems = () => {
   if (expiringItems.value.length > 0) {
-    showExpiryModal.value = true
+    showExpiryModal.value = true;
   }
-}
+};
 
 // Lifecycle
 onMounted(async () => {
   try {
     await Promise.all([
       purchaseStore.fetchPurchases(),
-      salesStore.fetchSales()
-    ])
-    
-    preparePurchasesVsSalesChart()
-    prepareMonthlySalesChart()
-    
+      salesStore.fetchSales(),
+    ]);
+
+    preparePurchasesVsSalesChart();
+    prepareMonthlySalesChart();
+
     // Check for expiring items after a short delay to allow UI to load
-    setTimeout(checkExpiryItems, 1000)
+    setTimeout(checkExpiryItems, 1000);
   } catch (error) {
-    console.error('Failed to load dashboard data:', error)
+    console.error("Failed to load dashboard data:", error);
   }
-})
+});
 
 // Watch for data changes
-watch([() => purchaseStore.purchases, () => salesStore.sales], () => {
-  preparePurchasesVsSalesChart()
-  prepareMonthlySalesChart()
-}, { deep: true })
+watch(
+  [() => purchaseStore.purchases, () => salesStore.sales],
+  () => {
+    preparePurchasesVsSalesChart();
+    prepareMonthlySalesChart();
+  },
+  { deep: true },
+);
 </script>
